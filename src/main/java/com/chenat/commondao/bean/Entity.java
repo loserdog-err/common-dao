@@ -1,4 +1,4 @@
-package com.chenat.commondao;
+package com.chenat.commondao.bean;
 
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -7,7 +7,7 @@ public class Entity {
 
     private String tableName;
 
-    private Field primaryKey;
+    private Column primaryKey;
 
     private Set<Column> columns;
 
@@ -28,11 +28,11 @@ public class Entity {
         this.columns = columns;
     }
 
-    public Field getPrimaryKey() {
+    public Column getPrimaryKey() {
         return primaryKey;
     }
 
-    public void setPrimaryKey(Field primaryKey) {
+    public void setPrimaryKey(Column primaryKey) {
         this.primaryKey = primaryKey;
     }
 

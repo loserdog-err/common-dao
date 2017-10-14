@@ -1,16 +1,9 @@
 package com.chenat.commondao;
 
+import com.chenat.commondao.daosupport.DaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.util.*;
 
 public class BaseDao<T> {
 
@@ -18,7 +11,7 @@ public class BaseDao<T> {
 
     Class<T> entityClass;
 
-    CommonDao commonDao;
+    DaoSupport daoSupport;
 
     public BaseDao() {
         ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
@@ -26,13 +19,30 @@ public class BaseDao<T> {
     }
 
     @Autowired
-    public void setCommonDao(CommonDao commonDao) {
-        this.commonDao = commonDao;
+    public void setDaoSupport(DaoSupport daoSupport) {
+        this.daoSupport = daoSupport;
     }
 
+    /**
+     * 插入不为空的字段
+     */
     public void insertSelective(T record) {
-        commonDao.insertSelective(record);
+        daoSupport.insertSelective(record);
+    }
 
+    /**
+     * 根据主键获取 entity
+     */
+    public T selectByPrimaryKey(Object primaryKey) {
+        return daoSupport.selectByPrimaryKey(primaryKey,entityClass);
+    }
+
+    public int deleteByPrimaryKey(Object primaryKey) {
+        return daoSupport.deleteByPrimaryKey(primaryKey, entityClass);
+    }
+
+    public int updateByPrimaryKeySelective(T record) {
+        return daoSupport.updateByPrimaryKeySelective(record);
     }
 
 

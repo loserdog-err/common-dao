@@ -22,8 +22,10 @@
  * THE SOFTWARE.
  */
 
-package com.chenat.commondao;
+package com.chenat.commondao.utils;
 
+
+import com.chenat.commondao.bean.Style;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

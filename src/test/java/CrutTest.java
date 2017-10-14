@@ -1,11 +1,8 @@
-import com.chenat.commondao.CommonDao;
+import com.chenat.commondao.daosupport.DaoSupport;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-
-import java.lang.reflect.Field;
 
 /**
  * Created by ChenAt 2017/10/14.
@@ -16,7 +13,9 @@ public class CrutTest {
 
     public NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CommonDao commonDao;
+    public DaoSupport daoSupport;
+
+    public StudentDao studentDao;
 
 
     @Before
@@ -28,19 +27,37 @@ public class CrutTest {
         dataSource.setPassword("3233006");
 
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        commonDao = new CommonDao(jdbcTemplate);
+        daoSupport = new DaoSupport(jdbcTemplate);
+        studentDao = new StudentDao();
+        studentDao.setDaoSupport(daoSupport);
     }
 
     @Test
-    public void test() throws Exception {
+    public void testInsert() throws Exception {
         Student student = new Student();
         student.setSex(10);
         student.setName("哈哈");
-        StudentDao studentDao = new StudentDao();
-        studentDao.setCommonDao(commonDao);
         studentDao.insertSelective(student);
-
         System.out.println(student);
+    }
 
+    @Test
+    public void testSelect() {
+        Student student=studentDao.selectByPrimaryKey(9);
+        System.out.println(student);
+    }
+
+    @Test
+    public void testDelete() {
+        System.out.println(studentDao.deleteByPrimaryKey(9));
+    }
+
+    @Test
+    public void testUpdate() {
+        Student student = new Student();
+        student.setId(9);
+        student.setName("wqnmlgb");
+        student.setSex(99);
+        studentDao.updateByPrimaryKeySelective(student);
     }
 }

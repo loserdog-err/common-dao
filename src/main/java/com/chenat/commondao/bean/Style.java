@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.chenat.commondao;
+package com.chenat.commondao.bean;
 
 /**
  * 字段转换方式
