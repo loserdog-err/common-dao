@@ -1,4 +1,4 @@
-package com.chenat.commondao.daosupport;
+package com.chenat.commondao.support;
 
 import com.chenat.commondao.BaseDaoSupport;
 import com.chenat.commondao.bean.Entity;

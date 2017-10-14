@@ -1,11 +1,9 @@
-package com.chenat.commondao.daosupport;
+package com.chenat.commondao.support;
 
-import com.chenat.commondao.daosupport.DeleteSupport;
-import com.chenat.commondao.daosupport.InsertSupport;
-import com.chenat.commondao.daosupport.SelectSupport;
-import com.chenat.commondao.daosupport.UpdateSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import java.util.List;
 
 /**
  * Created by ChenAt 2017/10/14.
@@ -48,4 +46,11 @@ public class DaoSupport {
     }
 
 
+    public <T> List<T> select(T record) {
+        return selectSupport.select(record);
+    }
+
+    public <T> T selectOne(T record) {
+        return selectSupport.selectOne(record);
+    }
 }

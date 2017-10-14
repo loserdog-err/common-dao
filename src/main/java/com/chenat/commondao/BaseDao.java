@@ -1,9 +1,10 @@
 package com.chenat.commondao;
 
-import com.chenat.commondao.daosupport.DaoSupport;
+import com.chenat.commondao.support.DaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 public class BaseDao<T> {
 
@@ -43,6 +44,14 @@ public class BaseDao<T> {
 
     public int updateByPrimaryKeySelective(T record) {
         return daoSupport.updateByPrimaryKeySelective(record);
+    }
+
+    public List<T> select(T record) {
+        return daoSupport.select(record);
+    }
+
+    public T selectOne(T record) {
+        return daoSupport.selectOne(record);
     }
 
 

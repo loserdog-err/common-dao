@@ -1,4 +1,4 @@
-import com.chenat.commondao.daosupport.DaoSupport;
+import com.chenat.commondao.support.DaoSupport;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
  * desc:
  */
 
-public class CrutTest {
+public class CrudTest {
 
     public NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -45,6 +45,10 @@ public class CrutTest {
     public void testSelect() {
         Student student=studentDao.selectByPrimaryKey(9);
         System.out.println(student);
+
+        student = new Student();
+        student.setName("哈哈");
+        System.out.println(studentDao.selectOne(student));
     }
 
     @Test

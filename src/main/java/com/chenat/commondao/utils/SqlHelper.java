@@ -44,9 +44,9 @@ public class SqlHelper {
     public static String whereClause(Set<Entity.Column> columns) {
         StringBuilder whereClause = new StringBuilder("WHERE ");
         for (Entity.Column column : columns) {
-            whereClause.append(column.getName()).append("=").append(":").append(column.getName()).append(",");
+            whereClause.append(column.getName()).append("=").append(":").append(column.getName()).append(" AND ");
         }
-        whereClause.deleteCharAt(whereClause.length() - 1);
+        whereClause.delete(whereClause.lastIndexOf("AND"), whereClause.length());
         return whereClause.toString();
     }
 
@@ -68,5 +68,9 @@ public class SqlHelper {
         }
         sql.deleteCharAt(sql.length() - 1).append(" ");
         return sql.toString();
+    }
+
+    public static String limitClause(int start, int end) {
+        return "LIMIT " + start + (end > 0 ? end : " ");
     }
 }
