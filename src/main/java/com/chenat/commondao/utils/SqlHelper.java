@@ -1,6 +1,7 @@
 package com.chenat.commondao.utils;
 
 import com.chenat.commondao.bean.Entity;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
 
@@ -42,6 +43,9 @@ public class SqlHelper {
     }
 
     public static String whereClause(Set<Entity.Column> columns) {
+        if (CollectionUtils.isEmpty(columns)) {
+            return " ";
+        }
         StringBuilder whereClause = new StringBuilder("WHERE ");
         for (Entity.Column column : columns) {
             whereClause.append(column.getName()).append("=").append(":").append(column.getName()).append(" AND ");
@@ -71,6 +75,6 @@ public class SqlHelper {
     }
 
     public static String limitClause(int start, int end) {
-        return "LIMIT " + start + (end > 0 ? end : " ");
+        return "LIMIT " + start + (end > 0 ? ","+end : " ");
     }
 }

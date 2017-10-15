@@ -64,4 +64,11 @@ public class CrudTest {
         student.setSex(99);
         studentDao.updateByPrimaryKeySelective(student);
     }
+
+    @Test
+    public void testSelectByPage() {
+        Student student = new Student();
+        student.setSex(0);
+        System.out.println(studentDao.selectByPage(1, 30, student));
+    }
 }

@@ -1,5 +1,6 @@
 package com.chenat.commondao.support;
 
+import com.chenat.commondao.paging.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -52,5 +53,9 @@ public class DaoSupport {
 
     public <T> T selectOne(T record) {
         return selectSupport.selectOne(record);
+    }
+
+    public <T> PageInfo<T> selectByPage(int pageNum, int pageSize, T record) {
+        return selectSupport.selectByPage(pageNum, pageSize, record);
     }
 }
