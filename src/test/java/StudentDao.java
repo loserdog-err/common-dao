@@ -1,6 +1,4 @@
-import com.chenat.commondao.BaseDao;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import top.chenat.commondao.BaseDao;
 
 /**
  * Created by ChenAt 2017/10/14.

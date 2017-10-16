@@ -1,4 +1,4 @@
-package com.chenat.commondao.paging;
+package top.chenat.commondao.paging;
 
 import org.springframework.util.CollectionUtils;
 

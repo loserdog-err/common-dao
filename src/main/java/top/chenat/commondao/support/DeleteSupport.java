@@ -1,8 +1,8 @@
-package com.chenat.commondao.support;
+package top.chenat.commondao.support;
 
-import com.chenat.commondao.BaseDaoSupport;
-import com.chenat.commondao.bean.Entity;
-import com.chenat.commondao.utils.SqlHelper;
+import top.chenat.commondao.BaseDaoSupport;
+import top.chenat.commondao.bean.Entity;
+import top.chenat.commondao.utils.SqlHelper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -23,6 +23,9 @@ public class DeleteSupport  extends BaseDaoSupport {
     public <T> int deleteByPrimaryKey(Object primaryKey, Class<T> entityClass) {
         Entity entity = getEntity(entityClass);
         Entity.Column primaryKeyColumn=entity.getPrimaryKey();
+        if (primaryKey == null) {
+            throw new RuntimeException("没有指定主键");
+        }
         final StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.deleteFromTable(entity.getTableName()));
         sql.append(SqlHelper.whereClause(Collections.singleton(primaryKeyColumn)));

@@ -1,11 +1,11 @@
-package com.chenat.commondao.support;
+package top.chenat.commondao.support;
 
-import com.chenat.commondao.BaseDaoSupport;
-import com.chenat.commondao.bean.Entity;
-import com.chenat.commondao.paging.CountSqlParser;
-import com.chenat.commondao.paging.PageInfo;
-import com.chenat.commondao.utils.SqlHelper;
-import com.sun.org.apache.regexp.internal.RE;
+import top.chenat.commondao.BaseDaoSupport;
+import top.chenat.commondao.bean.Entity;
+import top.chenat.commondao.bean.Example;
+import top.chenat.commondao.paging.CountSqlParser;
+import top.chenat.commondao.paging.PageInfo;
+import top.chenat.commondao.utils.SqlHelper;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -32,6 +32,9 @@ public class SelectSupport extends BaseDaoSupport {
     public <T> T selectByPrimaryKey(Object primaryKey, Class<T> entityClass) {
         Entity entity=getEntity(entityClass);
         Entity.Column primaryKeyColumn=entity.getPrimaryKey();
+        if (primaryKey == null) {
+            throw new RuntimeException("没有指定主键");
+        }
         final StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectFromTable(entity.getTableName()));
         sql.append(SqlHelper.whereClause(Collections.singleton(primaryKeyColumn)));
@@ -47,7 +50,7 @@ public class SelectSupport extends BaseDaoSupport {
         Class<T> clazz = (Class<T>) record.getClass();
         Entity entity=getEntity(record.getClass());
         try {
-            Object primaryKeyValue = entity.getPrimaryKey().getField().get(record);
+            Object primaryKeyValue = entity.getPrimaryKey().getReadMethod().invoke(record);
             if (primaryKeyValue!=null) {
                 return Collections.singletonList(selectByPrimaryKey(primaryKeyValue, clazz));
             }
@@ -109,5 +112,13 @@ public class SelectSupport extends BaseDaoSupport {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public  List<?> selectByExample(Example example) {
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.selectFromTable(example.getTableName()));
+        sql.append(SqlHelper.exampleWhereClause(example));
+        System.out.println(sql.toString());
+        return jdbcTemplate.query(sql.toString(), new BeanPropertyRowMapper<>(example.getEntityClass()));
     }
 }

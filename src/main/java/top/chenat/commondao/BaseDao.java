@@ -1,7 +1,8 @@
-package com.chenat.commondao;
+package top.chenat.commondao;
 
-import com.chenat.commondao.paging.PageInfo;
-import com.chenat.commondao.support.DaoSupport;
+import top.chenat.commondao.bean.Example;
+import top.chenat.commondao.paging.PageInfo;
+import top.chenat.commondao.support.DaoSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.ParameterizedType;
@@ -72,6 +73,10 @@ public class BaseDao<T> {
      */
     public PageInfo<T> selectByPage(int pageNum, int pageSize, T record) {
         return daoSupport.selectByPage(pageNum, pageSize, record);
+    }
+
+    public List<T> selectByExample(Example example) {
+        return (List<T>) daoSupport.selectByExample(example);
     }
 
 }

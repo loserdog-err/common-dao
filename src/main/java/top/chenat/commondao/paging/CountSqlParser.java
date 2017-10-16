@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.chenat.commondao.paging;
+package top.chenat.commondao.paging;
 
 import net.sf.jsqlparser.expression.Alias;
 import net.sf.jsqlparser.expression.Function;

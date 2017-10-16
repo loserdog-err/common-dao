@@ -1,6 +1,11 @@
-package com.chenat.commondao.bean;
+package top.chenat.commondao.bean;
+
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Entity {
@@ -29,13 +34,31 @@ public class Entity {
     }
 
     public Column getPrimaryKey() {
-        return primaryKey;
+        if (primaryKey != null) {
+            return primaryKey;
+        }
+        if (CollectionUtils.isEmpty(columns)) {
+            return null;
+        }
+        for (Column column : columns) {
+            if (column.isIdentity()) {
+                return column;
+            }
+        }
+        return null;
     }
 
     public void setPrimaryKey(Column primaryKey) {
         this.primaryKey = primaryKey;
     }
 
+    public Map<String,Column> getPropertyMap() {
+        Map<String, Column> map = new HashMap<>();
+        for (Entity.Column column : columns) {
+            map.put(column.getName(), column);
+        }
+        return map;
+    }
     public static class Column implements Comparable<Column>{
         private String name;
 
@@ -44,6 +67,10 @@ public class Entity {
         private Class<?> javaType;
 
         private Field field;
+
+        private Method readMethod;
+
+        private Method writeMethod;
 
         public String getName() {
             return name;
@@ -75,6 +102,22 @@ public class Entity {
 
         public void setField(Field field) {
             this.field = field;
+        }
+
+        public Method getReadMethod() {
+            return readMethod;
+        }
+
+        public void setReadMethod(Method readMethod) {
+            this.readMethod = readMethod;
+        }
+
+        public Method getWriteMethod() {
+            return writeMethod;
+        }
+
+        public void setWriteMethod(Method writeMethod) {
+            this.writeMethod = writeMethod;
         }
 
         public int compareTo(Column o) {

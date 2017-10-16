@@ -1,8 +1,8 @@
-package com.chenat.commondao.support;
+package top.chenat.commondao.support;
 
-import com.chenat.commondao.BaseDaoSupport;
-import com.chenat.commondao.bean.Entity;
-import com.chenat.commondao.utils.SqlHelper;
+import top.chenat.commondao.BaseDaoSupport;
+import top.chenat.commondao.bean.Entity;
+import top.chenat.commondao.utils.SqlHelper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
