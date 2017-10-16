@@ -1,3 +1,6 @@
+import net.sf.cglib.proxy.Enhancer;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 import top.chenat.commondao.bean.Example;
 import top.chenat.commondao.support.DaoSupport;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -9,6 +12,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
 
 /**
  * Created by ChenAt 2017/10/14.
@@ -80,14 +84,34 @@ public class CrudTest {
 
     @Test
     public void testHaha() throws IntrospectionException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(Student.class);
-        PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
-        for (PropertyDescriptor descriptor : propertyDescriptors) {
-        }
+        Enhancer enhancer =new Enhancer();
+        enhancer.setSuperclass(CrudTest.class);
+        enhancer.setCallback(new TargetInterceptor());
+        CrudTest test= (CrudTest) enhancer.create();
+        test.test();
+    }
+
+    public void test() {
+        System.out.println("wqnm;gb");
+        test2();
+    }
+
+    public void test2() {
+        System.out.println("wqnmlgb test2");
 
     }
 
-    @Test
+    static class TargetInterceptor   implements MethodInterceptor {
+        @Override
+        public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+            System.out.println("before===>" + method.getName());
+            Object result = methodProxy.invokeSuper(o, objects);
+            System.out.println("after ===>" + method.getName());
+            return result;
+        }
+    }
+
+        @Test
     public void testExample() throws Exception{
         studentDao.selectByPrimaryKey(10);
         Example example = new Example(Student.class);
