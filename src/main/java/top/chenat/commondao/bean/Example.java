@@ -69,7 +69,6 @@ public class Example {
     /**
      * 带exists参数的构造方法，默认notNull为false，允许为空
      *
-     * @param entityClass
      * @param exists      - true时，如果字段不存在就抛出异常，false时，如果不存在就不使用该字段的条件
      */
     public Example(Class<?> entityClass, boolean exists) {
@@ -79,7 +78,6 @@ public class Example {
     /**
      * 带exists参数的构造方法
      *
-     * @param entityClass
      * @param exists      - true时，如果字段不存在就抛出异常，false时，如果不存在就不使用该字段的条件
      * @param notNull     - true时，如果值为空，就会抛出异常，false时，如果为空就不使用该字段的条件
      */
@@ -172,9 +170,6 @@ public class Example {
 
     /**
      * 指定要查询的属性列 - 这里会自动映射到表字段
-     *
-     * @param properties
-     * @return
      */
     public Example selectProperties(String... properties) {
         if (properties != null && properties.length > 0) {
@@ -233,8 +228,6 @@ public class Example {
 
     /**
      * 设置表名
-     *
-     * @param tableName
      */
     public void setTableName(String tableName) {
         this.tableName = tableName;
@@ -405,7 +398,6 @@ public class Example {
          * 手写条件
          *
          * @param condition 例如 "length(countryname)<5"
-         * @return
          */
         public Criteria andCondition(String condition) {
             addCriterion(condition);
@@ -417,7 +409,6 @@ public class Example {
          *
          * @param condition 例如 "length(countryname)="
          * @param value     例如 5
-         * @return
          */
         public Criteria andCondition(String condition, Object value) {
             criteria.add(new Criterion(condition, value));
@@ -430,7 +421,6 @@ public class Example {
          * @param condition   例如 "length(countryname)="
          * @param value       例如 5
          * @param typeHandler 类型处理
-         * @return
          * @deprecated 由于typeHandler起不到作用，该方法会在4.x版本去掉
          */
         @Deprecated

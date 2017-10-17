@@ -2,9 +2,12 @@ package top.chenat.commondao.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import top.chenat.commondao.BaseDaoSupport;
+import top.chenat.commondao.EntityScanner;
 import top.chenat.commondao.bean.Example;
 import top.chenat.commondao.paging.PageInfo;
 import top.chenat.commondao.paging.QueryInterceptor;
+import top.chenat.commondao.utils.StringUtil;
 
 import java.util.List;
 
@@ -12,7 +15,7 @@ import java.util.List;
  * Created by ChenAt 2017/10/14.
  * desc:
  */
-public class DaoSupport {
+public class DaoSupport extends BaseDaoSupport{
 
 
     private SelectSupport selectSupport;
@@ -23,8 +26,10 @@ public class DaoSupport {
 
     private InsertSupport insertSupport;
 
+    private String basePackage = "*";
+
     @Autowired
-    public DaoSupport(NamedParameterJdbcTemplate jdbcTemplate) {
+    public DaoSupport(NamedParameterJdbcTemplate jdbcTemplate,String basePackage) {
         selectSupport = new SelectSupport(jdbcTemplate);
         updateSupport = new UpdateSupport(jdbcTemplate);
         deleteSupport = new DeleteSupport(jdbcTemplate);
@@ -35,8 +40,16 @@ public class DaoSupport {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        this.basePackage = basePackage;
+        if (StringUtil.isEmpty(basePackage)) {
+            this.basePackage = "*";
+        }
+        long start = System.currentTimeMillis();
+        List<Class<?>> entityClassList = new EntityScanner().scan(basePackage);
+        for (Class<?> clazz : entityClassList) {
+            getEntity(clazz);
+        }
     }
-
 
     public void insertSelective(Object record){
         insertSupport.insertSelective(record);
@@ -71,4 +84,6 @@ public class DaoSupport {
     public  List<?> selectByExample(Example example) {
         return selectSupport.selectByExample(example);
     }
+
+
 }

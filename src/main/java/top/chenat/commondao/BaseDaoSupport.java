@@ -28,7 +28,6 @@ public class BaseDaoSupport {
         if (entity != null) {
             return entity;
         }
-        Set<Entity.Column> columns = new HashSet<Entity.Column>();
         entity = new Entity();
         entity.setColumns(getColumns(entityClass));
         entity.setPrimaryKey(entity.getPrimaryKey());

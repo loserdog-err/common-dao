@@ -2,6 +2,7 @@ package top.chenat.commondao.paging;
 
 import org.springframework.util.CollectionUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -33,6 +34,26 @@ public class PageInfo<T> {
         this.pageCount = totalCount / pageSize + ((totalCount % pageSize == 0) ? 0 : 1);
     }
 
+    public PageInfo(List<T> list) {
+        if (list instanceof Page) {
+            Page page = (Page) list;
+            this.pageNum = page.getPageNum();
+            this.pageSize = page.getPageSize();
+
+            this.pageCount = page.getPageCount();
+            this.datas = page;
+            this.size = page.size();
+            this.totalCount = page.getTotalCount();
+        } else if (list instanceof Collection) {
+            this.pageNum = 1;
+            this.pageSize = list.size();
+
+            this.pageSize = this.pageSize > 0 ? 1 : 0;
+            this.datas = list;
+            this.size = list.size();
+            this.totalCount = list.size();
+        }
+    }
 
     public int getPageSize() {
         return pageSize;

@@ -1,7 +1,7 @@
 package top.chenat.commondao.utils;
 
-import top.chenat.commondao.bean.Entity;
 import org.springframework.util.CollectionUtils;
+import top.chenat.commondao.bean.Entity;
 import top.chenat.commondao.bean.Example;
 
 import java.util.Set;
@@ -83,6 +83,9 @@ public class SqlHelper {
         if (CollectionUtils.isEmpty(example.getOredCriteria())) {
             return "";
         }
+        if (CollectionUtils.isEmpty(example.getOredCriteria().get(0).getCriteria())) {
+            return "";
+        }
         StringBuilder sql = new StringBuilder("");
 
         for (Example.Criteria oredCriteria : example.getOredCriteria()) {
@@ -138,5 +141,13 @@ public class SqlHelper {
 //                "  </foreach>\n" +
 //                "</where>" +
 //                "</if>";
+    }
+
+    public static String wrapPageSql(String originSql, int start, int end) {
+        if (com.mysql.jdbc.StringUtils.indexOfIgnoreCase(originSql, "limit")>=0) {
+//            throw new RuntimeException("检测到原 sql 语句 包含 limit 语句，不能使用分页功能");
+            return originSql;
+        }
+        return originSql + SqlHelper.limitClause(start, end);
     }
 }

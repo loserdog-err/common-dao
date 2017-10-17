@@ -26,7 +26,6 @@ package top.chenat.commondao.paging;
 
 import java.io.Closeable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mybatis - 分页对象
@@ -49,11 +48,11 @@ public class Page<E> extends ArrayList<E> implements Closeable {
     /**
      * 总数
      */
-    private long total;
+    private int totalCount;
     /**
      * 总页数
      */
-    private int pages;
+    private int pageCount;
     /**
      * 包含count查询
      */
@@ -87,20 +86,30 @@ public class Page<E> extends ArrayList<E> implements Closeable {
         this.pageSize = pageSize;
     }
 
-    public long getTotal() {
-        return total;
+
+    public int getTotalCount() {
+        return totalCount;
     }
 
-    public void setTotal(long total) {
-        this.total = total;
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+        if (totalCount == -1) {
+            pageCount = 1;
+            return;
+        }
+        if (pageSize > 0) {
+            pageCount = (int) (totalCount / pageSize + ((totalCount % pageSize == 0) ? 0 : 1));
+        } else {
+            pageCount = 0;
+        }
     }
 
-    public int getPages() {
-        return pages;
+    public int getPageCount() {
+        return pageCount;
     }
 
-    public void setPages(int pages) {
-        this.pages = pages;
+    public void setPageCount(int pageCount) {
+        this.pageCount = pageCount;
     }
 
     public boolean isCount() {

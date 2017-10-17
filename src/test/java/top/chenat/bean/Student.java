@@ -1,3 +1,6 @@
+package top.chenat.bean;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -6,6 +9,7 @@ import javax.persistence.Id;
  * Created by ChenAt 2017/10/14.
  * desc:
  */
+@Entity
 public class Student {
 
     @Id
@@ -42,7 +46,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "top.chenat.bean.Student{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", sex=" + sex +

@@ -1,5 +1,7 @@
 package top.chenat.commondao.paging;
 
+import java.util.Collection;
+
 /**
  * Created by ChenAt 2017/10/16.
  * desc:
@@ -58,5 +60,15 @@ public class PageHelper {
     }
 
 
-
+    public static Object afterPage(Object result) {
+        Page page = getLocalPage();
+        if (page == null) {
+            return result;
+        }
+        page.addAll((Collection) result);
+        if (!page.isCount()) {
+            page.setTotalCount(-1);
+        }
+        return page;
+    }
 }

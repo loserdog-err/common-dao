@@ -1,3 +1,4 @@
+import top.chenat.bean.Student;
 import top.chenat.commondao.BaseDao;
 
 /**

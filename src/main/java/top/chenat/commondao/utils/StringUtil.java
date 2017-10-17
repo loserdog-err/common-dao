@@ -37,9 +37,6 @@ public class StringUtil {
 
     /**
      * 空
-     *
-     * @param str
-     * @return
      */
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
@@ -48,8 +45,6 @@ public class StringUtil {
     /**
      * 非空
      *
-     * @param str
-     * @return
      */
     public static boolean isNotEmpty(String str) {
         return !isEmpty(str);
@@ -58,10 +53,6 @@ public class StringUtil {
 
     /**
      * 根据指定的样式进行转换
-     *
-     * @param str
-     * @param style
-     * @return
      */
     public static String convertByStyle(String str, Style style) {
         switch (style) {
