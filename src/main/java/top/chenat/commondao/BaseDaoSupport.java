@@ -1,5 +1,7 @@
 package top.chenat.commondao;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import top.chenat.commondao.bean.Entity;
 import top.chenat.commondao.bean.Style;
@@ -12,13 +14,19 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Created by ChenAt 2017/10/14.
  * desc:
  */
 public class BaseDaoSupport {
+
+    protected final Log logger = LogFactory.getLog(getClass());
+
     private static Map<String, Entity> entityClassMap = new HashMap<>();
 
 
@@ -48,6 +56,7 @@ public class BaseDaoSupport {
                 }
                 for (PropertyDescriptor desc : propertyDescriptors) {
                     if (!desc.getName().equals("class")&&desc.getName().equals(field.getName())) {
+                        field.setAccessible(true);
                         Entity.Column column = new Entity.Column();
                         column.setName(desc.getName());
                         column.setJavaType(desc.getPropertyType());

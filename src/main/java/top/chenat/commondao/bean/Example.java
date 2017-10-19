@@ -57,11 +57,8 @@ public class Example {
     protected String tableName;
 
     protected OrderBy ORDERBY;
-    /**
-     * 默认exists为true
-     *
-     * @param entityClass
-     */
+
+    //默认exists为true
     public Example(Class<?> entityClass) {
         this(entityClass, true);
     }

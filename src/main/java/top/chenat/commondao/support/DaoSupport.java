@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import top.chenat.commondao.BaseDaoSupport;
 import top.chenat.commondao.EntityScanner;
 import top.chenat.commondao.bean.Example;
+import top.chenat.commondao.interceptor.QueryInterceptor;
 import top.chenat.commondao.paging.PageInfo;
-import top.chenat.commondao.paging.QueryInterceptor;
 import top.chenat.commondao.utils.StringUtil;
 
 import java.util.List;
@@ -27,6 +27,7 @@ public class DaoSupport extends BaseDaoSupport{
     private InsertSupport insertSupport;
 
     private String basePackage = "*";
+    private QueryInterceptor queryInterceptor;
 
     @Autowired
     public DaoSupport(NamedParameterJdbcTemplate jdbcTemplate,String basePackage) {
@@ -36,15 +37,15 @@ public class DaoSupport extends BaseDaoSupport{
         insertSupport = new InsertSupport(jdbcTemplate);
 
         try {
-            QueryInterceptor.intercept(jdbcTemplate);
+            this.queryInterceptor = new QueryInterceptor(jdbcTemplate);
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error("hook jdbcTemplate query methid fail,", e);
         }
         this.basePackage = basePackage;
         if (StringUtil.isEmpty(basePackage)) {
             this.basePackage = "*";
         }
-        long start = System.currentTimeMillis();
         List<Class<?>> entityClassList = new EntityScanner().scan(basePackage);
         for (Class<?> clazz : entityClassList) {
             getEntity(clazz);
@@ -84,6 +85,5 @@ public class DaoSupport extends BaseDaoSupport{
     public  List<?> selectByExample(Example example) {
         return selectSupport.selectByExample(example);
     }
-
 
 }

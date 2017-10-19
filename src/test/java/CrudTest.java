@@ -35,9 +35,9 @@ public class CrudTest {
         dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/test?useUnicode=true&zeroDateTimeBehavior=convertToNull&useSSL=false");
         dataSource.setUser("root");
         dataSource.setPassword("3233006");
-
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
         daoSupport = new DaoSupport(jdbcTemplate,"top.chenat.commondao");
+        daoSupport.setSqlWarningTime(100);
         studentDao = new StudentDao();
         studentDao.setDaoSupport(daoSupport);
 
